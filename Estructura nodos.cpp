@@ -11,9 +11,8 @@ struct nodo{
         valor=aux;
         ptr=NULL;
     }
-	
-	
-	void nuevo(int aux){
+    
+    void nuevo(int aux){
         nodo *actual=ptr;
         nodo *newnodo=new nodo(aux);
         if(actual!=NULL) while(actual->ptr!=NULL) actual=actual->ptr;
@@ -29,16 +28,43 @@ struct nodo{
         }
     }
     };
-
-nodo l1(3);
+	void Menu(){
+		cout<< "Menu" <<endl;
+		cout<<"1.- Nuevo" <<endl;
+		cout<<"2.- Mostrar" <<endl;
+		cout<<"3.- Salir" <<endl;
+		cout<<"->";
+	}
+nodo l1(0);
 
 int main(int argc, char** argv){
+	int op;
 	
-	l1.nuevo(2);
-    l1.nuevo(9);
-    l1.nuevo(3);
-    l1.nuevo(1);
-    l1.mostrar();
+	while(true){
+		Menu();
+		cin>> op;
+		
+		if (op==1){
+			cout<<"1.- Nuevo" <<endl;
+			int aux;
+			cout<< "Ingresar Dato: ";
+			cin>> aux;
+			l1.nuevo(aux);
+		}
+		if (op==2){
+			cout<<"2.- Mostrar" <<endl;
+			l1.mostrar();
+		}
+		if (op==3){
+			break;
+		}
+		if (op<1 or op>3){
+			cout<<"Error introduzca una opcion valida";
+			void Menu();
+		}
+	}
+
+    
 
 	return 0;
 }
