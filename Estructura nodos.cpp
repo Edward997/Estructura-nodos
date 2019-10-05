@@ -1,70 +1,88 @@
 #include <iostream>
-#include <conio.h>
 #include <stdlib.h>
+
 using namespace std;
 
-struct nodo{
-	int valor;
-	nodo* ptr;
-	
-	nodo(int aux=0){
-        valor=aux;
-        ptr=NULL;
+struct NODE{
+    int data;
+    NODE *next;
+    NODE(int newData=0){
+        data=newData;
+        next=NULL;
     }
-    
-    void nuevo(int aux){
-        nodo *actual=ptr;
-        nodo *newnodo=new nodo(aux);
-        if(actual!=NULL) while(actual->ptr!=NULL) actual=actual->ptr;
-        if(actual==NULL) ptr=newnodo;
-        else actual->ptr=newnodo;
+    void PushBack(int newData){
+        NODE *current=next;
+        NODE *newNode=new NODE(newData);
+        if(current!=NULL) while(current->next!=NULL) current=current->next;
+        if(current==NULL) next=newNode;
+        else current->next=newNode;
     }
-    void mostrar(){
-        cout<<valor<<endl;
-        nodo *actual=ptr;
-        while(actual!=NULL){
-            cout<<actual->valor<<endl;
-            actual=actual->ptr;
+    void PushSort(int newData){
+        NODE *current=next;
+        NODE *newNode=new NODE(newData);
+        NODE *before=this;
+        if(current==NULL){
+            before->next=newNode;
+            return;
+        }else while(current!=NULL && newData>current->data){
+            before=current;
+            current=current->next;
         }
+        newNode->next=before->next;
+        before->next=newNode;
     }
-    };
-	void Menu(){
-		cout<< "Menu" <<endl;
-		cout<<"1.- Nuevo" <<endl;
-		cout<<"2.- Mostrar" <<endl;
-		cout<<"3.- Salir" <<endl;
-		cout<<"->";
-	}
-nodo l1(0);
+    void Show(){
+        NODE *current=next;
+        while(current!=NULL){
+            cout<<current->data<<" ";
+            current=current->next;
+        }
+        cout<<endl;
+    }
+    void PopBack(){
+        NODE *current=next;
+        NODE *before=this;
+        if(current==NULL) return;
+        else while(current->next!=NULL){
+            before=current;
+            current=current->next;
+        }
+        before->next=NULL;
+        delete current;
+    }
+    void PopFront(){
+        NODE *current=next;
+        NODE *before=this;
+        if(current==NULL) return;
+        before->next=current->next;
+        delete current;
+    }
+};
+void ShowMenu(){
+	cout<<"      MENU     "<<endl;
+    cout<<"1.- Ingresar: " <<endl; 
+	cout<<"2.- Eleminar primer dato: " <<endl;
+	cout<<"3.- Mostrar lista: " <<endl;
+	cout<<"4.- Salir "<<endl;
+}
+NODE l1;
 
-int main(int argc, char** argv){
-	int op;
-	
-	while(true){
-		Menu();
-		cin>> op;
-		
-		if (op==1){
-			cout<<"1.- Nuevo" <<endl;
-			int aux;
-			cout<< "Ingresar Dato: ";
-			cin>> aux;
-			l1.nuevo(aux);
-		}
-		if (op==2){
-			cout<<"2.- Mostrar" <<endl;
-			l1.mostrar();
-		}
-		if (op==3){
-			break;
-		}
-		if (op<1 or op>3){
-			cout<<"Error introduzca una opcion valida";
-			void Menu();
-		}
-	}
+int main()
+{
+    int repetir=true;
+    int option;
+    while(repetir){
+        ShowMenu();
+        cin>>option;
+        if(option==1){
+            int newData;
+            cout<<"Dato a ingresar ";
+            cin>>newData;
+            l1.PushSort(newData);
+        }else if(option==2) l1.PopFront();
+        else if(option==3) l1.Show();
+        else break;
+    }
 
-    
-
-	return 0;
+    return 0;
 }
